@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DiverseMind – Gamified Micro-Learning Platform for Slow Learners. AI-powered adaptive education using machine learning, gamification, and personalised micro-lessons.">
+<meta name="keywords" content="DiverseMind, Slow Learners, Gamification, Micro-Learning, Machine Learning, Adaptive Education, SLIIT">
+<meta name="author" content="Rathnayaka R.M.S.T. | SLIIT">
+<title>DiverseMind – Gamified Micro-Learning for Slow Learners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & VARIABLES ──────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:  #1B4FD8;
+  --blue2: #2563EB;
+  --teal:  #0D9488;
+  --amber: #F59E0B;
+  --rose:  #F43F5E;
+  --violet:#7C3AED;
+  --dark:  #0F172A;
+  --dark2: #1E293B;
+  --mid:   #334155;
+  --muted: #64748B;
+  --light: #F1F5F9;
+  --white: #FFFFFF;
+  --card:  rgba(255,255,255,0.04);
+  --border:rgba(255,255,255,0.08);
+  --grad:  linear-gradient(135deg,#1B4FD8,#0D9488);
+  --grad2: linear-gradient(135deg,#7C3AED,#1B4FD8);
+  --radius:16px;
+  --shadow:0 4px 32px rgba(0,0,0,0.35);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--white);overflow-x:hidden;line-height:1.7}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+section{padding:100px 0}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* ── SCROLLBAR ──────────────────────────────────────────────────── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--dark2)}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px}
+
+/* ── NAVBAR ─────────────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:18px 0;
+  transition:all .3s ease;
+  background:transparent;
+}
+nav.scrolled{
+  background:rgba(15,23,42,.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:12px 0;
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-icon{
+  width:42px;height:42px;border-radius:10px;
+  background:var(--grad);
+  display:grid;place-items:center;
+  font-size:1.2rem;font-weight:700;font-family:'DM Serif Display',serif;
+  color:#fff;flex-shrink:0;
+}
+.logo-text{font-size:1.25rem;font-weight:700;letter-spacing:-.5px}
+.logo-text span{color:var(--teal)}
+.nav-links{display:flex;gap:8px;list-style:none}
+.nav-links a{
+  padding:8px 16px;border-radius:8px;font-size:.88rem;font-weight:500;
+  color:rgba(255,255,255,.75);transition:all .2s;
+}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-cta{
+  padding:9px 22px;border-radius:9px;font-size:.88rem;font-weight:600;
+  background:var(--blue);color:#fff;transition:all .2s;
+}
+.nav-cta:hover{background:var(--blue2);transform:translateY(-1px)}
+.hamburger{display:none;background:none;border:none;cursor:pointer;color:#fff;font-size:1.4rem}
+
+/* ── HERO ────────────────────────────────────────────────────────── */
+#home{
+  min-height:100vh;display:flex;align-items:center;
+  position:relative;overflow:hidden;
+  background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(27,79,216,.35) 0%,transparent 70%),
+             radial-gradient(ellipse 50% 40% at 90% 50%,rgba(13,148,136,.2) 0%,transparent 60%),
+             var(--dark);
+}
+.hero-noise{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;
+}
+.hero-content{position:relative;z-index:2;max-width:780px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;border-radius:999px;margin-bottom:28px;
+  background:rgba(27,79,216,.15);border:1px solid rgba(27,79,216,.35);
+  font-size:.82rem;font-weight:600;color:rgba(147,197,253,1);
+  text-transform:uppercase;letter-spacing:.08em;
+}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#60A5FA;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2.8rem,6vw,4.5rem);
+  line-height:1.08;
+  letter-spacing:-.03em;
+  margin-bottom:24px;
+}
+h1 em{font-style:normal;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.18rem;color:rgba(255,255,255,.65);max-width:580px;margin-bottom:40px;font-weight:300}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{
+  padding:14px 30px;border-radius:10px;font-weight:600;font-size:.95rem;
+  background:var(--blue);color:#fff;
+  transition:all .25s;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary:hover{background:var(--blue2);transform:translateY(-2px);box-shadow:0 12px 30px rgba(27,79,216,.4)}
+.btn-outline{
+  padding:14px 30px;border-radius:10px;font-weight:600;font-size:.95rem;
+  background:transparent;color:#fff;
+  border:1px solid rgba(255,255,255,.2);
+  transition:all .25s;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-outline:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.06);transform:translateY(-2px)}
+.hero-stats{
+  display:flex;gap:40px;margin-top:56px;padding-top:40px;
+  border-top:1px solid var(--border);flex-wrap:wrap;
+}
+.stat-val{font-family:'DM Serif Display',serif;font-size:2.2rem;line-height:1}
+.stat-val span{font-size:1.2rem;color:var(--teal)}
+.stat-label{font-size:.82rem;color:var(--muted);margin-top:4px;font-weight:500;text-transform:uppercase;letter-spacing:.06em}
+
+/* ── SECTION LABELS ─────────────────────────────────────────────── */
+.section-tag{
+  display:inline-block;padding:4px 14px;border-radius:999px;
+  font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+  background:rgba(27,79,216,.15);border:1px solid rgba(27,79,216,.3);
+  color:#93C5FD;margin-bottom:16px;
+}
+.section-title{
+  font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3rem);
+  letter-spacing:-.03em;line-height:1.1;margin-bottom:16px;
+}
+.section-desc{color:rgba(255,255,255,.6);font-size:1.05rem;font-weight:300;max-width:600px}
+.section-header{margin-bottom:64px}
+.center{text-align:center}
+.center .section-desc{margin:0 auto}
+
+/* ── PROJECT SCOPE ───────────────────────────────────────────────── */
+#scope{background:var(--dark2)}
+.scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.scope-card{
+  padding:36px;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--card);
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.scope-card::before{
+  content:'';position:absolute;inset:0;
+  background:var(--grad);opacity:0;transition:.3s;
+}
+.scope-card:hover{border-color:rgba(27,79,216,.4);transform:translateY(-4px);box-shadow:var(--shadow)}
+.scope-card:hover::before{opacity:.04}
+.scope-icon{
+  width:52px;height:52px;border-radius:12px;
+  display:grid;place-items:center;font-size:1.5rem;margin-bottom:20px;
+  background:rgba(27,79,216,.15);
+}
+.scope-card h3{font-size:1.15rem;font-weight:700;margin-bottom:10px}
+.scope-card p{color:rgba(255,255,255,.6);font-size:.93rem;line-height:1.7}
+
+/* ── RESEARCH GAP ────────────────────────────────────────────────── */
+#gap{background:var(--dark)}
+.gap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.gap-card{
+  padding:32px;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--card);
+  transition:all .3s;
+}
+.gap-card:hover{border-color:rgba(245,158,11,.3);transform:translateY(-4px)}
+.gap-num{
+  font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:600;
+  color:var(--amber);margin-bottom:12px;letter-spacing:.1em;
+}
+.gap-card h3{font-size:1rem;font-weight:700;margin-bottom:10px;line-height:1.4}
+.gap-card p{color:rgba(255,255,255,.55);font-size:.88rem;line-height:1.65}
+.gap-vs{
+  display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:start;margin-top:40px;
+}
+.vs-box{padding:28px;border-radius:var(--radius);border:1px solid var(--border)}
+.vs-box.existing{border-color:rgba(244,63,94,.2);background:rgba(244,63,94,.04)}
+.vs-box.proposed{border-color:rgba(13,148,136,.2);background:rgba(13,148,136,.04)}
+.vs-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.vs-box.existing .vs-label{color:var(--rose)}
+.vs-box.proposed .vs-label{color:var(--teal)}
+.vs-list{list-style:none}
+.vs-list li{font-size:.88rem;color:rgba(255,255,255,.65);padding:5px 0;display:flex;align-items:flex-start;gap:8px}
+.vs-list li::before{content:'';flex-shrink:0;margin-top:8px}
+.vs-box.existing .vs-list li::before{content:'✗';color:var(--rose);font-size:.75rem}
+.vs-box.proposed .vs-list li::before{content:'✓';color:var(--teal);font-size:.75rem}
+.vs-center{display:flex;align-items:center;justify-content:center}
+.vs-arrow{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--grad);display:grid;place-items:center;font-size:1.2rem;
+  box-shadow:0 0 0 8px rgba(27,79,216,.1);
+}
+
+/* ── PROBLEM & SOLUTION ─────────────────────────────────────────── */
+#problem{background:var(--dark2)}
+.ps-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.ps-card{padding:40px;border-radius:var(--radius);border:1px solid var(--border)}
+.ps-card.problem{border-color:rgba(244,63,94,.25);background:rgba(244,63,94,.04)}
+.ps-card.solution{border-color:rgba(13,148,136,.25);background:rgba(13,148,136,.04)}
+.ps-tag{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+.problem .ps-tag{background:rgba(244,63,94,.15);color:var(--rose)}
+.solution .ps-tag{background:rgba(13,148,136,.15);color:var(--teal)}
+.ps-card h3{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:16px;line-height:1.2}
+.ps-card p,.ps-card li{color:rgba(255,255,255,.65);font-size:.93rem;line-height:1.75}
+.ps-card ul{list-style:none;margin-top:12px}
+.ps-card ul li{padding:6px 0;display:flex;align-items:flex-start;gap:10px}
+.ps-card ul li::before{content:'→';color:var(--teal);flex-shrink:0;font-weight:700}
+
+/* ── OBJECTIVES ─────────────────────────────────────────────────── */
+#objectives{background:var(--dark)}
+.obj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.obj-card{
+  display:flex;gap:20px;padding:28px;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--card);
+  transition:all .3s;
+}
+.obj-card:hover{border-color:rgba(124,58,237,.3);transform:translateY(-3px)}
+.obj-num{
+  font-family:'DM Serif Display',serif;font-size:3rem;line-height:1;
+  color:rgba(255,255,255,.08);flex-shrink:0;font-weight:700;
+  min-width:60px;
+}
+.obj-body h3{font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--white)}
+.obj-body p{color:rgba(255,255,255,.55);font-size:.88rem;line-height:1.65}
+
+/* ── METHODOLOGY ─────────────────────────────────────────────────── */
+#methodology{background:var(--dark2)}
+.method-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
+.method-card{
+  padding:28px 24px;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--card);
+  text-align:center;transition:all .3s;
+}
+.method-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.method-card.c1:hover{border-color:rgba(27,79,216,.4)}
+.method-card.c2:hover{border-color:rgba(13,148,136,.4)}
+.method-card.c3:hover{border-color:rgba(245,158,11,.4)}
+.method-card.c4:hover{border-color:rgba(124,58,237,.4)}
+.method-icon{font-size:2rem;margin-bottom:14px}
+.method-card h3{font-size:.95rem;font-weight:700;margin-bottom:8px}
+.method-card p{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.6}
+.arch-box{
+  padding:40px;border-radius:var(--radius);
+  border:1px solid var(--border);background:rgba(27,79,216,.05);
+}
+.arch-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:24px}
+.arch-layers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.arch-layer{padding:20px;border-radius:12px;border:1px solid var(--border);text-align:center}
+.arch-layer.l1{background:rgba(27,79,216,.08);border-color:rgba(27,79,216,.2)}
+.arch-layer.l2{background:rgba(13,148,136,.08);border-color:rgba(13,148,136,.2)}
+.arch-layer.l3{background:rgba(124,58,237,.08);border-color:rgba(124,58,237,.2)}
+.arch-layer h4{font-size:.88rem;font-weight:700;margin-bottom:6px}
+.arch-layer p{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.5}
+.tech-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.tech-tag{
+  padding:5px 14px;border-radius:999px;
+  font-size:.78rem;font-weight:600;
+  background:rgba(255,255,255,.06);border:1px solid var(--border);
+  color:rgba(255,255,255,.7);
+  font-family:'JetBrains Mono',monospace;
+}
+
+/* ── COMPONENTS ─────────────────────────────────────────────────── */
+#components{background:var(--dark)}
+.comp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.comp-card{
+  padding:32px;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--card);
+  transition:all .3s;
+}
+.comp-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.comp-pill{
+  display:inline-block;padding:4px 12px;border-radius:999px;
+  font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  margin-bottom:14px;
+}
+.comp-card h3{font-size:1.05rem;font-weight:700;margin-bottom:12px}
+.comp-card ul{list-style:none}
+.comp-card ul li{font-size:.85rem;color:rgba(255,255,255,.6);padding:4px 0;display:flex;gap:8px;align-items:flex-start}
+.comp-card ul li::before{content:'▸';flex-shrink:0;margin-top:2px}
+.cc1{border-color:rgba(27,79,216,.25)}  .cc1 .comp-pill{background:rgba(27,79,216,.15);color:#93C5FD} .cc1 ul li::before{color:#93C5FD}
+.cc2{border-color:rgba(245,158,11,.25)} .cc2 .comp-pill{background:rgba(245,158,11,.15);color:var(--amber)} .cc2 ul li::before{color:var(--amber)}
+.cc3{border-color:rgba(13,148,136,.25)} .cc3 .comp-pill{background:rgba(13,148,136,.15);color:#2DD4BF} .cc3 ul li::before{color:#2DD4BF}
+.cc4{border-color:rgba(124,58,237,.25)} .cc4 .comp-pill{background:rgba(124,58,237,.15);color:#C4B5FD} .cc4 ul li::before{color:#C4B5FD}
+.cc5{border-color:rgba(244,63,94,.25)}  .cc5 .comp-pill{background:rgba(244,63,94,.15);color:#FDA4AF} .cc5 ul li::before{color:#FDA4AF}
+.cc6{border-color:rgba(16,185,129,.25)} .cc6 .comp-pill{background:rgba(16,185,129,.15);color:#6EE7B7} .cc6 ul li::before{color:#6EE7B7}
+
+/* ── MILESTONES ─────────────────────────────────────────────────── */
+#milestones{background:var(--dark2)}
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--blue),var(--teal))}
+.tl-item{position:relative;margin-bottom:40px}
+.tl-dot{
+  position:absolute;left:-40px;top:4px;
+  width:16px;height:16px;border-radius:50%;
+  border:3px solid var(--blue);background:var(--dark2);
+  transition:all .3s;
+}
+.tl-item:hover .tl-dot{background:var(--blue);box-shadow:0 0 0 6px rgba(27,79,216,.2)}
+.tl-item.done .tl-dot{background:var(--teal);border-color:var(--teal)}
+.tl-item.current .tl-dot{background:var(--amber);border-color:var(--amber);box-shadow:0 0 0 6px rgba(245,158,11,.2);animation:pulseAmber 2s infinite}
+@keyframes pulseAmber{0%,100%{box-shadow:0 0 0 6px rgba(245,158,11,.2)}50%{box-shadow:0 0 0 10px rgba(245,158,11,.05)}}
+.tl-content{
+  padding:24px 28px;border-radius:12px;border:1px solid var(--border);
+  background:var(--card);transition:all .3s;
+}
+.tl-item:hover .tl-content{border-color:rgba(27,79,216,.3);transform:translateX(4px)}
+.tl-date{font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;font-family:'JetBrains Mono',monospace}
+.tl-title{font-size:1.05rem;font-weight:700;margin-bottom:6px}
+.tl-desc{font-size:.88rem;color:rgba(255,255,255,.55);margin-bottom:12px;line-height:1.6}
+.tl-marks{display:flex;align-items:center;gap:10px}
+.tl-badge{
+  padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;
+  background:rgba(27,79,216,.15);color:#93C5FD;border:1px solid rgba(27,79,216,.2);
+}
+.tl-badge.done{background:rgba(13,148,136,.15);color:#2DD4BF;border-color:rgba(13,148,136,.2)}
+.tl-badge.current{background:rgba(245,158,11,.15);color:var(--amber);border-color:rgba(245,158,11,.2)}
+.progress-bar-wrap{height:4px;background:rgba(255,255,255,.08);border-radius:2px;flex:1}
+.progress-bar-fill{height:100%;border-radius:2px;transition:width 1s ease}
+
+/* ── DOCUMENTS ───────────────────────────────────────────────────── */
+#documents{background:var(--dark)}
+.docs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.doc-card{
+  padding:28px;border-radius:var(--radius);border:1px solid var(--border);
+  background:var(--card);transition:all .3s;text-align:center;
+}
+.doc-card:hover{border-color:rgba(27,79,216,.4);transform:translateY(-4px);box-shadow:var(--shadow)}
+.doc-icon{font-size:2.2rem;margin-bottom:14px}
+.doc-card h3{font-size:.95rem;font-weight:700;margin-bottom:8px}
+.doc-card p{font-size:.8rem;color:var(--muted);margin-bottom:18px;line-height:1.5}
+.doc-btn{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;
+  font-size:.8rem;font-weight:600;background:rgba(27,79,216,.15);
+  border:1px solid rgba(27,79,216,.3);color:#93C5FD;transition:all .2s;
+}
+.doc-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+/* ── TEAM ────────────────────────────────────────────────────────── */
+#team{background:var(--dark2)}
+.supervisors{display:grid;grid-template-columns:repeat(2,280px);gap:20px;justify-content:center;margin-bottom:48px}
+.members{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.person-card{
+  border-radius:var(--radius);border:1px solid var(--border);
+  background:var(--card);overflow:hidden;transition:all .3s;text-align:center;
+}
+.person-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:rgba(27,79,216,.3)}
+.person-avatar{
+  height:130px;background:var(--grad);
+  display:grid;place-items:center;font-size:2.8rem;
+  font-family:'DM Serif Display',serif;color:rgba(255,255,255,.3);
+  font-weight:700;letter-spacing:-2px;
+}
+.person-avatar.sup{height:150px;font-size:3.2rem}
+.av-teal{background:var(--grad)}
+.av-violet{background:linear-gradient(135deg,#7C3AED,#1B4FD8)}
+.av-rose{background:linear-gradient(135deg,#F43F5E,#7C3AED)}
+.av-amber{background:linear-gradient(135deg,#F59E0B,#F43F5E)}
+.av-blue2{background:linear-gradient(135deg,#1B4FD8,#0D9488)}
+.person-body{padding:20px 16px}
+.person-role{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.role-sup{background:rgba(27,79,216,.15);color:#93C5FD}
+.role-leader{background:rgba(13,148,136,.15);color:#2DD4BF}
+.role-member{background:rgba(124,58,237,.15);color:#C4B5FD}
+.person-card h3{font-size:.95rem;font-weight:700;margin-bottom:4px}
+.person-card .institution{font-size:.75rem;color:var(--muted);line-height:1.4;margin-bottom:12px}
+.person-links{display:flex;justify-content:center;gap:10px}
+.person-links a{
+  width:32px;height:32px;border-radius:8px;border:1px solid var(--border);
+  display:grid;place-items:center;font-size:.8rem;color:var(--muted);
+  transition:all .2s;
+}
+.person-links a:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ── CONTACT ─────────────────────────────────────────────────────── */
+#contact{background:var(--dark)}
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.contact-info h3{font-family:'DM Serif Display',serif;font-size:1.8rem;margin-bottom:16px;line-height:1.2}
+.contact-info p{color:rgba(255,255,255,.6);font-size:.93rem;margin-bottom:24px;line-height:1.7}
+.contact-detail{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.contact-detail:last-child{border-bottom:none}
+.cd-icon{width:36px;height:36px;border-radius:8px;background:rgba(27,79,216,.15);display:grid;place-items:center;font-size:1rem;flex-shrink:0}
+.cd-label{font-size:.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.cd-val{font-size:.88rem;color:rgba(255,255,255,.8)}
+.contact-form{padding:36px;border-radius:var(--radius);border:1px solid var(--border);background:var(--card)}
+.contact-form h3{font-size:1.1rem;font-weight:700;margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:.82rem;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:7px;text-transform:uppercase;letter-spacing:.05em}
+.form-group input,.form-group textarea{
+  width:100%;padding:12px 16px;border-radius:10px;
+  border:1px solid var(--border);background:rgba(255,255,255,.04);
+  color:#fff;font-family:'DM Sans',sans-serif;font-size:.93rem;
+  transition:border-color .2s;outline:none;
+}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--blue)}
+.form-group textarea{resize:vertical;min-height:110px}
+::placeholder{color:var(--muted)}
+.btn-submit{
+  width:100%;padding:13px;border-radius:10px;font-weight:700;font-size:.95rem;
+  background:var(--blue);color:#fff;border:none;cursor:pointer;
+  transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-submit:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(27,79,216,.4)}
+
+/* ── FOOTER ──────────────────────────────────────────────────────── */
+footer{
+  padding:40px 0;border-top:1px solid var(--border);
+  background:var(--dark2);
+}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-brand{font-size:1rem;font-weight:700}
+.footer-brand span{color:var(--teal)}
+.footer-copy{font-size:.82rem;color:var(--muted)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:.82rem;color:var(--muted);transition:color .2s}
+.footer-links a:hover{color:#fff}
+
+/* ── MOBILE NAV ─────────────────────────────────────────────────── */
+.mobile-menu{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(15,23,42,.97);z-index:999;
+  flex-direction:column;align-items:center;justify-content:center;gap:12px;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-size:1.2rem;font-weight:600;color:rgba(255,255,255,.8);padding:12px 24px;border-radius:10px;transition:all .2s}
+.mobile-menu a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.mobile-close{position:absolute;top:24px;right:24px;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer}
+
+/* ── BACK TO TOP ────────────────────────────────────────────────── */
+.back-top{
+  position:fixed;bottom:28px;right:28px;z-index:900;
+  width:44px;height:44px;border-radius:12px;
+  background:var(--blue);color:#fff;border:none;cursor:pointer;
+  display:grid;place-items:center;font-size:1.1rem;
+  opacity:0;pointer-events:none;transition:all .3s;
+  box-shadow:0 4px 16px rgba(27,79,216,.4);
+}
+.back-top.show{opacity:1;pointer-events:auto}
+.back-top:hover{background:var(--blue2);transform:translateY(-2px)}
+
+/* ── ANIMATIONS ─────────────────────────────────────────────────── */
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+.fade-up:nth-child(2){transition-delay:.1s}
+.fade-up:nth-child(3){transition-delay:.2s}
+.fade-up:nth-child(4){transition-delay:.3s}
+.fade-up:nth-child(5){transition-delay:.4s}
+.fade-up:nth-child(6){transition-delay:.5s}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────── */
+@media(max-width:1024px){
+  .scope-grid,.gap-grid,.method-grid,.comp-grid,.arch-layers{grid-template-columns:repeat(2,1fr)}
+  .docs-grid,.members{grid-template-columns:repeat(2,1fr)}
+  .supervisors{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  section{padding:70px 0}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .scope-grid,.ps-grid,.gap-vs,.contact-wrap,.obj-grid{grid-template-columns:1fr}
+  .vs-center{display:none}
+  .gap-grid,.method-grid,.comp-grid,.arch-layers,.docs-grid,.members,.supervisors{grid-template-columns:1fr}
+  .hero-stats{gap:24px}
+  .footer-inner{flex-direction:column;text-align:center}
+  .footer-links{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a class="logo" href="#home">
+      <div class="logo-icon">DM</div>
+      <span class="logo-text">Diverse<span>Mind</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#scope">Scope</a></li>
+      <li><a href="#gap">Research Gap</a></li>
+      <li><a href="#objectives">Objectives</a></li>
+      <li><a href="#methodology">Methodology</a></li>
+      <li><a href="#components">Components</a></li>
+      <li><a href="#milestones">Milestones</a></li>
+      <li><a href="#documents">Documents</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="btn-primary nav-cta" href="#documents">View Documents</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#home" class="mobile-link">Home</a>
+  <a href="#scope" class="mobile-link">Project Scope</a>
+  <a href="#gap" class="mobile-link">Research Gap</a>
+  <a href="#objectives" class="mobile-link">Objectives</a>
+  <a href="#methodology" class="mobile-link">Methodology</a>
+  <a href="#components" class="mobile-link">Components</a>
+  <a href="#milestones" class="mobile-link">Milestones</a>
+  <a href="#documents" class="mobile-link">Documents</a>
+  <a href="#team" class="mobile-link">Team</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+</div>
+
+<!-- ── HERO ───────────────────────────────────────────────────────── -->
+<section id="home">
+  <div class="hero-noise"></div>
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">🎓 Research Project · 2025-26J-543 · SLIIT</div>
+      <h1>Gamified <em>Micro-Learning</em><br>for Slow Learners</h1>
+      <p class="hero-sub">An AI-powered adaptive education platform that uses machine learning, gamification mechanics, and personalised micro-lessons to support children who learn at a slower pace — making education engaging, equitable, and effective.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#scope">Explore Research ↓</a>
+        <a class="btn-outline" href="#documents">Download Reports</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-val">0.98<span> acc</span></div>
+          <div class="stat-label">ML Model Accuracy</div>
+        </div>
+        <div>
+          <div class="stat-val">1.00<span> auc</span></div>
+          <div class="stat-label">ROC-AUC Score</div>
+        </div>
+        <div>
+          <div class="stat-val">20<span>+</span></div>
+          <div class="stat-label">Achievement Badges</div>
+        </div>
+        <div>
+          <div class="stat-val">4<span> pillars</span></div>
+          <div class="stat-label">Core Components</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECT SCOPE ───────────────────────────────────────────────── -->
+<section id="scope">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Project Scope</span>
+      <h2 class="section-title">Literature Survey</h2>
+      <p class="section-desc">Grounded in established educational psychology and AI research to support slow learners through technology.</p>
+    </div>
+    <div class="scope-grid">
+      <div class="scope-card fade-up">
+        <div class="scope-icon">📚</div>
+        <h3>Slow Learner Education</h3>
+        <p>Slow learners — defined as individuals with IQ in the 70–90 borderline range — require more time, repetition, and scaffolding to acquire knowledge. Muthiah (2015) demonstrated that activity-centred teaching approaches yielded measurable improvements. Husain & Adam (2020) found visual and kinaesthetic methods significantly improved comprehension and retention in this population.</p>
+      </div>
+      <div class="scope-card fade-up">
+        <div class="scope-icon">🎮</div>
+        <h3>Gamification in Learning</h3>
+        <p>Deterding et al. (2011) defined gamification as applying game-design elements in non-game contexts to drive motivation and goal-directed behaviour. Research consistently shows that points, badges, leaderboards, and streak tracking significantly increase engagement. Kapp (2012) emphasised that gamification produces maximal benefit when mechanics align with learning objectives — a principle central to DiverseMind's adaptive design.</p>
+      </div>
+      <div class="scope-card fade-up">
+        <div class="scope-icon">⚡</div>
+        <h3>Micro-Learning Pedagogy</h3>
+        <p>Hug (2005) characterised micro-learning as delivering content in short, discrete units targeting single learning objectives — directly reducing working memory demands. Mohammed (2019) demonstrated that micro-learning modules produced significantly higher completion rates and post-assessment scores than full-length content among students with learning difficulties, validating this approach for the target population.</p>
+      </div>
+      <div class="scope-card fade-up">
+        <div class="scope-icon">🤖</div>
+        <h3>ML in Educational Analytics</h3>
+        <p>Baker & Yacef (2009) identified engagement prediction as one of the most practically valuable ML applications, establishing five key behavioural feature categories all represented in DiverseMind's model. Khosravi et al. (2020) found that platforms integrating personalisation, analytics, and gamification consistently outperformed single-feature systems in both engagement and academic performance outcomes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RESEARCH GAP ────────────────────────────────────────────────── -->
+<section id="gap">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Research Gap</span>
+      <h2 class="section-title">What's Missing in Existing Solutions</h2>
+      <p class="section-desc">Current educational platforms fail slow learners in four critical dimensions that this research directly addresses.</p>
+    </div>
+    <div class="gap-grid">
+      <div class="gap-card fade-up">
+        <div class="gap-num">GAP 01</div>
+        <h3>No Adaptive Gamification for Slow Learners</h3>
+        <p>Existing platforms apply generic gamification mechanics — points, badges, leaderboards — uniformly regardless of learner engagement state. No existing system calibrates reward difficulty or challenge type to individual ML-predicted engagement scores.</p>
+      </div>
+      <div class="gap-card fade-up">
+        <div class="gap-num">GAP 02</div>
+        <h3>Limited ML Engagement Prediction in K–12</h3>
+        <p>Machine learning applications in education primarily target grade prediction or dropout detection in higher education. The specific engagement prediction challenges of slow learners in primary school — irregular patterns, sensitivity to difficulty spikes — remain largely unaddressed.</p>
+      </div>
+      <div class="gap-card fade-up">
+        <div class="gap-num">GAP 03</div>
+        <h3>Absence of Intelligent Micro-Learning</h3>
+        <p>Micro-learning platforms deliver content in fixed sequences without dynamic adjustment. No existing system automatically determines when to introduce new content, revisit prior material, or reduce difficulty based on real-time performance data for slow learners.</p>
+      </div>
+      <div class="gap-card fade-up">
+        <div class="gap-num">GAP 04</div>
+        <h3>No Holistic Integrated Framework</h3>
+        <p>Platforms implement gamification OR analytics OR personalisation in isolation. No unified system combines all four pillars — gamification, micro-learning, ML engagement prediction, and recommendation — within a single child-centric framework designed specifically for slow learners.</p>
+      </div>
+      <div class="gap-card fade-up">
+        <div class="gap-num">GAP 05</div>
+        <h3>No Proactive Teacher Intervention Tools</h3>
+        <p>Existing platforms offer reactive reporting dashboards. No system provides predictive, real-time teacher alerts based on ML-detected engagement risk that enable intervention before disengagement becomes entrenched dropout behaviour.</p>
+      </div>
+      <div class="gap-card fade-up">
+        <div class="gap-num">GAP 06</div>
+        <h3>Cold-Start Personalisation Problem</h3>
+        <p>Recommendation systems require accumulated behavioural data before providing meaningful personalisation. No existing platform uses an initial multi-dimensional assessment to profile learning style, generating personalised content pathways from the very first session.</p>
+      </div>
+    </div>
+    <div class="gap-vs" style="margin-top:48px">
+      <div class="vs-box existing">
+        <div class="vs-label">Existing Platforms</div>
+        <ul class="vs-list">
+          <li>Generic gamification mechanics for all learners</li>
+          <li>No ML-based engagement prediction</li>
+          <li>Static content sequencing</li>
+          <li>No K–12 slow learner specialisation</li>
+          <li>Reactive teacher dashboards only</li>
+          <li>Cold-start personalisation problem</li>
+        </ul>
+      </div>
+      <div class="vs-center"><div class="vs-arrow">→</div></div>
+      <div class="vs-box proposed">
+        <div class="vs-label">DiverseMind Solution</div>
+        <ul class="vs-list">
+          <li>Adaptive gamification driven by ML engagement scores</li>
+          <li>Logistic Regression model: 0.98 accuracy, AUC = 1.00</li>
+          <li>Mastery-gated adaptive lesson sequencing</li>
+          <li>Explicitly designed for slow learners in K–12</li>
+          <li>Real-time predictive teacher alert system</li>
+          <li>30-question initial assessment eliminates cold-start</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROBLEM & SOLUTION ──────────────────────────────────────────── -->
+<section id="problem">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Problem &amp; Solution</span>
+      <h2 class="section-title">Research Problem &amp; Proposed Solution</h2>
+    </div>
+    <div class="ps-grid">
+      <div class="ps-card problem fade-up">
+        <span class="ps-tag">Research Problem</span>
+        <h3>How can a gamified, ML-powered web platform improve the engagement, motivation, and learning outcomes of slow learners through personalised micro-learning?</h3>
+        <p style="margin-bottom:14px">Slow learners face a persistent educational gap due to:</p>
+        <ul>
+          <li>Traditional instruction calibrated for average-paced learners</li>
+          <li>No adaptive technological support in mainstream classrooms</li>
+          <li>Generic gamification that fails to sustain motivation over time</li>
+          <li>No early warning system for teacher intervention</li>
+          <li>Lack of personalised content pacing for individual cognitive needs</li>
+        </ul>
+      </div>
+      <div class="ps-card solution fade-up">
+        <span class="ps-tag">Proposed Solution</span>
+        <h3>DiverseMind — A Unified Gamified Micro-Learning Platform with ML-Based Engagement Prediction</h3>
+        <p style="margin-bottom:14px">The system addresses all identified problems through:</p>
+        <ul>
+          <li>30-question adaptive assessment to profile each learner from session one</li>
+          <li>Micro-lessons (3–5 min) with mastery-gated adaptive sequencing</li>
+          <li>ML engagement prediction (Logistic Regression, accuracy 0.98, AUC 1.00)</li>
+          <li>Real-time teacher alerts when Days_Inactive exceeds 5 days</li>
+          <li>Personalised recommendation engine combining content-filtering + gamification incentives</li>
+          <li>20+ badges, XP system, leaderboard, streak tracking, and daily challenges</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OBJECTIVES ──────────────────────────────────────────────────── -->
+<section id="objectives">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-tag">Research Objectives</span>
+      <h2 class="section-title">What We Set Out to Achieve</h2>
+      <p class="section-desc">Five specific objectives operationalise the main research aim.</p>
+    </div>
+    <div class="obj-grid">
+      <div class="obj-card fade-up">
+        <div class="obj-num">01</div>
+        <div class="obj-body">
+          <h3>Identify Engagement Levels of Slow Learners</h3>
+          <p>Detect learners at risk of disengagement using behavioural data including login frequency, quiz scores, game metrics, time spent, and days inactive — enabling early intervention via ML prediction.</p>
+        </div>
+      </div>
+      <div class="obj-card fade-up">
+        <div class="obj-num">02</div>
+        <div class="obj-body">
+          <h3>Deliver Gamified Micro-Learning Activities</h3>
+          <p>Provide adaptive lessons based on individual performance, pace, and difficulty level. Break content into focused 3–5 minute modules targeting single learning objectives to reduce cognitive overload.</p>
+        </div>
+      </div>
+      <div class="obj-card fade-up">
+        <div class="obj-num">03</div>
+        <div class="obj-body">
+          <h3>Personalise Learning Paths Using Machine Learning</h3>
+          <p>Recommend suitable lessons and adjust difficulty dynamically using the composite recommendation score: CF similarity + ML engagement score + gamification alignment incentives.</p>
+        </div>
+      </div>
+      <div class="obj-card fade-up">
+        <div class="obj-num">04</div>
+        <div class="obj-body">
+          <h3>Implement Adaptive Gamification System</h3>
+          <p>Develop XP rewards, 20+ achievement badges, competitive leaderboards, daily challenges, and streak tracking — all calibrated dynamically to individual engagement prediction scores.</p>
+        </div>
+      </div>
+      <div class="obj-card fade-up">
+        <div class="obj-num">05</div>
+        <div class="obj-body">
+          <h3>Empower Teachers with Real-Time Monitoring</h3>
+          <p>Provide educator dashboards with per-student engagement predictions, risk assessments, and intervention strategy recommendations. Trigger proactive alerts before disengagement escalates.</p>
+        </div>
+      </div>
+      <div class="obj-card fade-up">
+        <div class="obj-num">06</div>
+        <div class="obj-body">
+          <h3>Conduct Comprehensive System Evaluation</h3>
+          <p>Validate through unit testing, integration testing, and user acceptance testing. Assess ML model performance via precision, recall, F1-score, and AUC-ROC. Collect educator and student feedback on usability.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── METHODOLOGY ─────────────────────────────────────────────────── -->
+<section id="methodology">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Methodology</span>
+      <h2 class="section-title">System Design &amp; Development Approach</h2>
+      <p class="section-desc">Agile development lifecycle with four pedagogical design principles at its core.</p>
+    </div>
+    <div class="method-grid">
+      <div class="method-card c1 fade-up">
+        <div class="method-icon">🧠</div>
+        <h3>Cognitive Load Management</h3>
+        <p>3–5 min micro-lesson units, single-objective content, mastery-gated sequencing using rolling accuracy threshold τ = 0.70.</p>
+      </div>
+      <div class="method-card c2 fade-up">
+        <div class="method-icon">🏆</div>
+        <h3>Motivational Scaffolding</h3>
+        <p>XP rewards, badges, leaderboard, daily challenges, and streak multipliers — all dynamically calibrated to ML engagement predictions.</p>
+      </div>
+      <div class="method-card c3 fade-up">
+        <div class="method-icon">📊</div>
+        <h3>Data-Driven Personalisation</h3>
+        <p>Logistic Regression on 5 behavioural features. Composite recommendation score combining content-filtering, engagement state, and gamification alignment.</p>
+      </div>
+      <div class="method-card c4 fade-up">
+        <div class="method-icon">👩‍🏫</div>
+        <h3>Teacher Empowerment</h3>
+        <p>Real-time dashboards with engagement predictions, risk flags, and intervention recommendations. Proactive alerts before disengagement escalates.</p>
+      </div>
+    </div>
+    <div class="arch-box fade-up">
+      <div class="arch-title">Three-Tier System Architecture</div>
+      <div class="arch-layers">
+        <div class="arch-layer l1">
+          <div style="font-size:1.8rem;margin-bottom:10px">🖥️</div>
+          <h4>Frontend Layer</h4>
+          <p>React.js · Teacher Dashboard · Student Portal · ML Analytics Interface · Responsive Design</p>
+        </div>
+        <div class="arch-layer l2">
+          <div style="font-size:1.8rem;margin-bottom:10px">⚙️</div>
+          <h4>Backend API Layer</h4>
+          <p>Python · Flask · RESTful APIs · JWT Auth · Assessment Engine · ML Model Inference</p>
+        </div>
+        <div class="arch-layer l3">
+          <div style="font-size:1.8rem;margin-bottom:10px">🗄️</div>
+          <h4>Data Layer</h4>
+          <p>SQLite · User Profiles · Assessment Results · Game Sessions · Progress Metrics · Analytics Logs</p>
+        </div>
+      </div>
+      <div class="tech-tags" style="margin-top:28px">
+        <span class="tech-tag">React.js</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">Flask</span>
+        <span class="tech-tag">SQLite</span>
+        <span class="tech-tag">scikit-learn</span>
+        <span class="tech-tag">Logistic Regression</span>
+        <span class="tech-tag">StandardScaler</span>
+        <span class="tech-tag">JWT Auth</span>
+        <span class="tech-tag">RESTful API</span>
+        <span class="tech-tag">Agile / Scrum</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COMPONENTS ──────────────────────────────────────────────────── -->
+<section id="components">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-tag">System Components</span>
+      <h2 class="section-title">Six Integrated Modules</h2>
+      <p class="section-desc">Each module contributes a critical function to the unified platform ecosystem.</p>
+    </div>
+    <div class="comp-grid">
+      <div class="comp-card cc1 fade-up">
+        <span class="comp-pill">Assessment Module</span>
+        <h3>30-Question Initial Assessment</h3>
+        <ul>
+          <li>6 learning style categories with targeted questions</li>
+          <li>Automatic scoring and profile generation</li>
+          <li>40+ personalised activity recommendations</li>
+          <li>Historical assessment tracking and exportable reports</li>
+          <li>Eliminates cold-start personalisation problem</li>
+        </ul>
+      </div>
+      <div class="comp-card cc2 fade-up">
+        <span class="comp-pill">Gamification Module</span>
+        <h3>Adaptive Engagement &amp; Rewards System</h3>
+        <ul>
+          <li>Activity-based XP accumulation with difficulty calibration</li>
+          <li>20+ unlockable achievement badges for milestones</li>
+          <li>Competitive cohort leaderboard rankings</li>
+          <li>Personalised daily challenges based on learning style</li>
+          <li>Consecutive login streak rewards with XP multipliers</li>
+        </ul>
+      </div>
+      <div class="comp-card cc3 fade-up">
+        <span class="comp-pill">Learning Module</span>
+        <h3>Micro-Learning Content Delivery</h3>
+        <ul>
+          <li>3–5 minute focused micro-lesson units</li>
+          <li>Mastery-gated adaptive sequencing (τ = 0.70 threshold)</li>
+          <li>Embedded formative assessment after each unit</li>
+          <li>Review cycle triggered when performance falls below threshold</li>
+          <li>40+ activities across curriculum domains</li>
+        </ul>
+      </div>
+      <div class="comp-card cc4 fade-up">
+        <span class="comp-pill">ML Analytics Module</span>
+        <h3>Engagement Prediction Engine</h3>
+        <ul>
+          <li>Logistic Regression on 5 behavioural features</li>
+          <li>Accuracy: 0.98 · Precision: 0.99 · AUC: 1.00</li>
+          <li>Login_Streak: strongest positive predictor (β = +6.20)</li>
+          <li>Days_Inactive: dominant risk signal (β = −8.08)</li>
+          <li>Real-time inference with &lt;100ms response time</li>
+        </ul>
+      </div>
+      <div class="comp-card cc5 fade-up">
+        <span class="comp-pill">Teacher Dashboard</span>
+        <h3>Educator Monitoring &amp; Intervention</h3>
+        <ul>
+          <li>Per-student engagement scores and risk levels</li>
+          <li>Real-time alerts when Days_Inactive &gt; 5</li>
+          <li>Assessment control and content assignment tools</li>
+          <li>ML analytics with intervention strategy recommendations</li>
+          <li>Class-level and individual progress visualisations</li>
+        </ul>
+      </div>
+      <div class="comp-card cc6 fade-up">
+        <span class="comp-pill">Student Interface</span>
+        <h3>Personalised Learning Portal</h3>
+        <ul>
+          <li>Personalised content dashboard based on ML recommendations</li>
+          <li>Interactive games and gamified lesson activities</li>
+          <li>Progress visibility with visual milestone tracking</li>
+          <li>Achievement gallery and badge collection display</li>
+          <li>Child-friendly UI optimised for K–12 age groups</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MILESTONES ──────────────────────────────────────────────────── -->
+<section id="milestones">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Milestones</span>
+      <h2 class="section-title">Assessment Timeline — 2025/26 July Batch</h2>
+      <p class="section-desc">Project milestones tracked across the full academic year from July 2025 to June 2026.</p>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item done">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">25 Mar 2026</div>
+          <div class="tl-title">Brainstorming &amp; Group Registration</div>
+          <div class="tl-desc">Initial project ideation, team formation, and official group registration at SLIIT.</div>
+          <div class="tl-marks">
+            <span class="tl-badge done">✓ Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item done">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">26th May 2026</div>
+          <div class="tl-title">Topic Assessment Form (TAF) &amp; Project Charter</div>
+          <div class="tl-desc">Formal topic approval submission and project charter documentation establishing scope, objectives, and deliverables.</div>
+          <div class="tl-marks">
+            <span class="tl-badge done">✓ Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item done">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">15 Aug 2026</div>
+          <div class="tl-title">Proposal Reports (Draft &amp; Final)</div>
+          <div class="tl-desc">Individual project proposal submitted for review. Final marked proposal submitted 8–12 September. Marks Allocated: 6</div>
+          <div class="tl-marks">
+            <span class="tl-badge done">✓ Completed</span>
+            <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:100%;background:var(--teal)"></div></div>
+            <span style="font-size:.78rem;color:var(--muted)">6 marks</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item done">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">15–19 Dec 2026</div>
+          <div class="tl-title">Progress Presentation I + Check List I</div>
+          <div class="tl-desc">Reviews 50% project completion status — reveals gaps in design and implementation. Demonstrates core system architecture and initial ML model. Marks Allocated: 6</div>
+          <div class="tl-marks">
+            <span class="tl-badge done">✓ Completed</span>
+            <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:100%;background:var(--teal)"></div></div>
+            <span style="font-size:.78rem;color:var(--muted)">6 marks</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item done">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">March 2026</div>
+          <div class="tl-title">Research Paper</div>
+          <div class="tl-desc">IEEE-format research paper submitted describing the ML engagement prediction model (accuracy 0.98, AUC 1.00) and the integrated gamified micro-learning platform architecture. Marks Allocated: 10</div>
+          <div class="tl-marks">
+            <span class="tl-badge done">✓ Completed</span>
+            <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:100%;background:var(--teal)"></div></div>
+            <span style="font-size:.78rem;color:var(--muted)">10 marks</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item current">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">March 2026</div>
+          <div class="tl-title">Progress Presentation II + Check List II</div>
+          <div class="tl-desc">Reviews 90% completion status with live system demonstration. Full platform including all modules, ML model, teacher dashboard, and student portal demonstrated. Marks Allocated: 18</div>
+          <div class="tl-marks">
+            <span class="tl-badge current">⟳ In Progress</span>
+            <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:70%;background:var(--amber)"></div></div>
+            <span style="font-size:.78rem;color:var(--muted)">18 marks</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">May 2026 (Submission)</div>
+          <div class="tl-title">Submission of Research Paper for Acceptance</div>
+          <div class="tl-desc">Formal submission of the research paper to target conference or journal for peer review and publication consideration.</div>
+          <div class="tl-marks">
+            <span class="tl-badge">⟳ Upcoming</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">April 2026</div>
+          <div class="tl-title">Final Reports (Group &amp; Individual)</div>
+          <div class="tl-desc">Complete project documentation including all chapters, results, discussion, and conclusion. Covers individual components and the integrated group contribution. Marks Allocated: 19</div>
+          <div class="tl-marks">
+            <span class="tl-badge">⟳ Upcoming</span>
+            <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%;background:var(--blue)"></div></div>
+            <span style="font-size:.78rem;color:var(--muted)">19 marks</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">June 2026</div>
+          <div class="tl-title">Final Presentation &amp; VIVA + Project Website + Logbook</div>
+          <div class="tl-desc">Individual viva assessing each member's contribution. Project website assessed for research communication quality. Research logbook validated. Marks Allocated: 20 + 2 + 3</div>
+          <div class="tl-marks">
+            <span class="tl-badge">⟳ Upcoming</span>
+            <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%;background:var(--blue)"></div></div>
+            <span style="font-size:.78rem;color:var(--muted)">25 marks total</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── DOCUMENTS ───────────────────────────────────────────────────── -->
+<section id="documents">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-tag">Documents</span>
+      <h2 class="section-title">Project Documents</h2>
+      <p class="section-desc">All research documents, reports, and presentations available for download.</p>
+    </div>
+    <div class="docs-grid">
+      <div class="doc-card fade-up">
+        <div class="doc-icon">📋</div>
+        <h3>Topic Assessment</h3>
+        <p>Formal topic approval documentation submitted to SLIIT Faculty of Computing.</p>
+        <a class="doc-btn" href="#">↓ Download</a>
+      </div>
+      <div class="doc-card fade-up">
+        <div class="doc-icon">📄</div>
+        <h3>Project Proposal</h3>
+        <p>Individual project proposal outlining research rationale, objectives, and methodology.</p>
+        <a class="doc-btn" href="#">↓ Download</a>
+      </div>
+      <div class="doc-card fade-up">
+        <div class="doc-icon">📊</div>
+        <h3>Research Paper</h3>
+        <p>IEEE-format paper on the ML engagement prediction model and gamified micro-learning platform.</p>
+        <a class="doc-btn" href="#">↓ Download</a>
+      </div>
+      <div class="doc-card fade-up">
+        <div class="doc-icon">📑</div>
+        <h3>Progress Report I</h3>
+        <p>50% completion report covering system architecture, initial ML model, and gamification engine.</p>
+        <a class="doc-btn" href="#">↓ Download</a>
+      </div>
+      <div class="doc-card fade-up">
+        <div class="doc-icon">📈</div>
+        <h3>Progress Report II</h3>
+        <p>90% completion report with full system demonstration and ML model evaluation results.</p>
+        <a class="doc-btn" href="#">↓ Download</a>
+      </div>
+      <div class="doc-card fade-up">
+        <div class="doc-icon">📕</div>
+        <h3>Final Report</h3>
+        <p>Complete group and individual final report covering all components and evaluation findings.</p>
+        <a class="doc-btn" href="#">↓ Download</a>
+      </div>
+      <div class="doc-card fade-up">
+        <div class="doc-icon">🗂️</div>
+        <h3>Project Charter</h3>
+        <p>Formal project charter document establishing scope, team roles, and deliverable expectations.</p>
+        <a class="doc-btn" href="#">↓ Download</a>
+      </div>
+      <div class="doc-card fade-up">
+        <div class="doc-icon">📓</div>
+        <h3>Research Logbook</h3>
+        <p>Weekly progress documentation validating research activities and milestones throughout the year.</p>
+        <a class="doc-btn" href="#">↓ Download</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM ────────────────────────────────────────────────────────── -->
+<section id="team">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-tag">About Us</span>
+      <h2 class="section-title">Meet the Team</h2>
+      <p class="section-desc">Undergraduate research team from the Department of Information Technology, SLIIT.</p>
+    </div>
+
+    <!-- Supervisors -->
+    <div class="supervisors">
+      <div class="person-card">
+        <div class="person-avatar sup av-teal">DR</div>
+        <div class="person-body">
+          <span class="person-role role-sup">Supervisor</span>
+          <h3>Mr. Dinith Primal</h3>
+          <p class="institution">Department of Information Technology<br>Sri Lanka Institute of Information Technology</p>
+          <div class="person-links">
+            <a href="mailto:dinith.p@sliit.lk" title="Email">✉</a>
+          </div>
+        </div>
+      </div>
+      <div class="person-card">
+        <div class="person-avatar sup av-violet">CO</div>
+        <div class="person-body">
+          <span class="person-role role-sup">Co-Supervisor</span>
+          <h3>Co-Supervisor</h3>
+          <p class="institution">Department of Information Technology<br>Sri Lanka Institute of Information Technology</p>
+          <div class="person-links">
+            <a href="#" title="Email">✉</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team Members -->
+    <div class="members">
+      <div class="person-card">
+        <div class="person-avatar av-teal">RT</div>
+        <div class="person-body">
+          <span class="person-role role-leader">Group Leader</span>
+          <h3>Rathnayaka R.M.S.T.</h3>
+          <p class="institution">IT21101342<br>B.Sc. (Hons) Information Technology<br>SLIIT, Sri Lanka</p>
+          <div class="person-links">
+            <a href="mailto:it21101342@my.sliit.lk" title="Email">✉</a>
+          </div>
+        </div>
+      </div>
+      <div class="person-card">
+        <div class="person-avatar av-rose">M2</div>
+        <div class="person-body">
+          <span class="person-role role-member">Group Member</span>
+          <h3>Member 2</h3>
+          <p class="institution">Student ID: —<br>B.Sc. (Hons) Information Technology<br>SLIIT, Sri Lanka</p>
+          <div class="person-links">
+            <a href="#" title="Email">✉</a>
+          </div>
+        </div>
+      </div>
+      <div class="person-card">
+        <div class="person-avatar av-amber">M3</div>
+        <div class="person-body">
+          <span class="person-role role-member">Group Member</span>
+          <h3>Member 3</h3>
+          <p class="institution">Student ID: —<br>B.Sc. (Hons) Information Technology<br>SLIIT, Sri Lanka</p>
+          <div class="person-links">
+            <a href="#" title="Email">✉</a>
+          </div>
+        </div>
+      </div>
+      <div class="person-card">
+        <div class="person-avatar av-blue2">M4</div>
+        <div class="person-body">
+          <span class="person-role role-member">Group Member</span>
+          <h3>Member 4</h3>
+          <p class="institution">Student ID: —<br>B.Sc. (Hons) Information Technology<br>SLIIT, Sri Lanka</p>
+          <div class="person-links">
+            <a href="#" title="Email">✉</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ──────────────────────────────────────────────────────── -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Contact Us</span>
+      <h2 class="section-title">Get in Touch</h2>
+    </div>
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <h3>We'd love to hear from you.</h3>
+        <p>Interested in our research, collaboration opportunities, or have questions about the DiverseMind platform? Reach out through any of the channels below.</p>
+        <div class="contact-detail">
+          <div class="cd-icon">✉</div>
+          <div>
+            <div class="cd-label">Email</div>
+            <div class="cd-val">it21101342@my.sliit.lk</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">🏛</div>
+          <div>
+            <div class="cd-label">Institution</div>
+            <div class="cd-val">Sri Lanka Institute of Information Technology, Malabe</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">📋</div>
+          <div>
+            <div class="cd-label">Project ID</div>
+            <div class="cd-val">2025-26J-543 · Department of Information Technology</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">🎓</div>
+          <div>
+            <div class="cd-label">Programme</div>
+            <div class="cd-val">B.Sc. (Hons) Information Technology · Faculty of Computing</div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <h3>Send a Message</h3>
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="name@example.com" required>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Your message or query..." rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span>Send Message</span> →
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-brand">Diverse<span>Mind</span> · 2025-26J-543</div>
+    <div class="footer-copy">© 2026 Rathnayaka R.M.S.T. · SLIIT Faculty of Computing</div>
+    <div class="footer-links">
+      <a href="#home">Home</a>
+      <a href="#scope">Scope</a>
+      <a href="#milestones">Timeline</a>
+      <a href="#documents">Documents</a>
+      <a href="#team">Team</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Navbar scroll effect
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+  document.getElementById('backTop').classList.toggle('show', window.scrollY > 400);
+});
+
+// Mobile menu
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileClose = document.getElementById('mobileClose');
+hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+// Intersection observer for fade-up
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Progress bar animation
+const progObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.progress-bar-fill').forEach(bar => {
+        const w = bar.style.width; bar.style.width='0'; 
+        setTimeout(() => bar.style.width = w, 100);
+      });
+    }
+  });
+}, {threshold:.3});
+document.querySelectorAll('.tl-item').forEach(el => progObs.observe(el));
+
+// Smooth nav link clicks
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+
+// Form submit
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.innerHTML = '✓ Message Sent!';
+  btn.style.background = 'var(--teal)';
+  setTimeout(() => { btn.innerHTML = '<span>Send Message</span> →'; btn.style.background = ''; }, 3000);
+}
+
+// Active nav link highlight
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.style.color = a.getAttribute('href') === `#${cur}` ? '#fff' : '';
+    a.style.background = a.getAttribute('href') === `#${cur}` ? 'rgba(255,255,255,0.1)' : '';
+  });
+});
+</script>
+</body>
+</html>
