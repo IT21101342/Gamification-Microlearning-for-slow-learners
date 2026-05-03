@@ -68,10 +68,12 @@ nav.scrolled{
 }
 .logo-text{font-size:1.25rem;font-weight:700;letter-spacing:-.5px}
 .logo-text span{color:var(--teal)}
-.nav-links{display:flex;gap:8px;list-style:none}
+.nav-links{display:flex;gap:8px;list-style:none;align-items:center;flex-wrap:nowrap}
+.nav-links li{flex:0 0 auto}
 .nav-links a{
+  display:inline-flex;align-items:center;flex-shrink:0;min-width:max-content;
   padding:8px 16px;border-radius:8px;font-size:.88rem;font-weight:500;
-  color:rgba(255,255,255,.75);transition:all .2s;
+  color:rgba(255,255,255,.75);transition:all .2s;white-space:nowrap;line-height:1.1;
 }
 .nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
 .nav-cta{
@@ -362,13 +364,16 @@ h1 em{font-style:normal;
 
 /* ── TEAM ────────────────────────────────────────────────────────── */
 #team{background:var(--dark2)}
-.supervisors{display:grid;grid-template-columns:repeat(2,280px);gap:20px;justify-content:center;margin-bottom:48px}
-.members{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.team-cards{display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:24px;max-width:760px;margin:0 auto 48px}
 .person-card{
   border-radius:var(--radius);border:1px solid var(--border);
   background:var(--card);overflow:hidden;transition:all .3s;text-align:center;
 }
-.person-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:rgba(27,79,216,.3)}
+.person-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.person-card.card-sup{border-color:rgba(27,79,216,.35);background:linear-gradient(180deg,rgba(27,79,216,.08),rgba(255,255,255,.04))}
+.person-card.card-student{border-color:rgba(13,148,136,.35);background:linear-gradient(180deg,rgba(13,148,136,.08),rgba(255,255,255,.04))}
+.person-card.card-sup:hover{border-color:rgba(27,79,216,.55)}
+.person-card.card-student:hover{border-color:rgba(13,148,136,.55)}
 .person-avatar{
   height:130px;background:var(--grad);
   display:grid;place-items:center;font-size:2.8rem;
@@ -474,16 +479,15 @@ footer{
 /* ── RESPONSIVE ─────────────────────────────────────────────────── */
 @media(max-width:1024px){
   .scope-grid,.gap-grid,.method-grid,.comp-grid,.arch-layers{grid-template-columns:repeat(2,1fr)}
-  .docs-grid,.members{grid-template-columns:repeat(2,1fr)}
-  .supervisors{grid-template-columns:repeat(2,1fr)}
+  .docs-grid,.team-cards{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:768px){
   section{padding:70px 0}
   .nav-links,.nav-cta{display:none}
   .hamburger{display:flex}
-  .scope-grid,.ps-grid,.gap-vs,.contact-wrap,.obj-grid{grid-template-columns:1fr}
+  .scope-grid,.ps-grid,.gap-vs,.contact-wrap,.obj-grid,.team-cards{grid-template-columns:1fr}
   .vs-center{display:none}
-  .gap-grid,.method-grid,.comp-grid,.arch-layers,.docs-grid,.members,.supervisors{grid-template-columns:1fr}
+  .gap-grid,.method-grid,.comp-grid,.arch-layers,.docs-grid{grid-template-columns:1fr}
   .hero-stats{gap:24px}
   .footer-inner{flex-direction:column;text-align:center}
   .footer-links{justify-content:center}
@@ -1056,7 +1060,7 @@ footer{
         <div class="doc-icon">📄</div>
         <h3>Project Proposal</h3>
         <p>Individual project proposal outlining research rationale, objectives, and methodology.</p>
-        <a class="doc-btn" href="#">↓ Download</a>
+        <a class="doc-btn" onclick="window.open('https://drive.google.com/file/d/1JMcbI_eVFUw5wOYQ4DWCDtsWoMbJ3HhH/view?usp=sharing', '_blank'); return false;">↓ Download</a>
       </div>
       <div class="doc-card fade-up">
         <div class="doc-icon">📊</div>
@@ -1107,9 +1111,8 @@ footer{
       <p class="section-desc">Undergraduate research team from the Department of Information Technology, SLIIT.</p>
     </div>
 
-    <!-- Supervisors -->
-    <div class="supervisors">
-      <div class="person-card">
+    <div class="team-cards">
+      <div class="person-card card-sup">
         <div class="person-avatar sup av-teal">DR</div>
         <div class="person-body">
           <span class="person-role role-sup">Supervisor</span>
@@ -1120,62 +1123,13 @@ footer{
           </div>
         </div>
       </div>
-      <div class="person-card">
-        <div class="person-avatar sup av-violet">CO</div>
+      <div class="person-card card-student">
+        <div class="person-avatar sup av-violet">RT</div>
         <div class="person-body">
-          <span class="person-role role-sup">Co-Supervisor</span>
-          <h3>Co-Supervisor</h3>
-          <p class="institution">Department of Information Technology<br>Sri Lanka Institute of Information Technology</p>
-          <div class="person-links">
-            <a href="#" title="Email">✉</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Team Members -->
-    <div class="members">
-      <div class="person-card">
-        <div class="person-avatar av-teal">RT</div>
-        <div class="person-body">
-          <span class="person-role role-leader">Group Leader</span>
           <h3>Rathnayaka R.M.S.T.</h3>
           <p class="institution">IT21101342<br>B.Sc. (Hons) Information Technology<br>SLIIT, Sri Lanka</p>
           <div class="person-links">
             <a href="mailto:it21101342@my.sliit.lk" title="Email">✉</a>
-          </div>
-        </div>
-      </div>
-      <div class="person-card">
-        <div class="person-avatar av-rose">M2</div>
-        <div class="person-body">
-          <span class="person-role role-member">Group Member</span>
-          <h3>Member 2</h3>
-          <p class="institution">Student ID: —<br>B.Sc. (Hons) Information Technology<br>SLIIT, Sri Lanka</p>
-          <div class="person-links">
-            <a href="#" title="Email">✉</a>
-          </div>
-        </div>
-      </div>
-      <div class="person-card">
-        <div class="person-avatar av-amber">M3</div>
-        <div class="person-body">
-          <span class="person-role role-member">Group Member</span>
-          <h3>Member 3</h3>
-          <p class="institution">Student ID: —<br>B.Sc. (Hons) Information Technology<br>SLIIT, Sri Lanka</p>
-          <div class="person-links">
-            <a href="#" title="Email">✉</a>
-          </div>
-        </div>
-      </div>
-      <div class="person-card">
-        <div class="person-avatar av-blue2">M4</div>
-        <div class="person-body">
-          <span class="person-role role-member">Group Member</span>
-          <h3>Member 4</h3>
-          <p class="institution">Student ID: —<br>B.Sc. (Hons) Information Technology<br>SLIIT, Sri Lanka</p>
-          <div class="person-links">
-            <a href="#" title="Email">✉</a>
           </div>
         </div>
       </div>
